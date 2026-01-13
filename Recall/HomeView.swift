@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @State private var searchText = ""
     @State private var selectedCategory: NoteCategory? = nil
+    @State private var showingPracticeSets = false
 
     let categories = NoteCategory.allCases
     let sampleNotes = [
@@ -67,6 +68,17 @@ struct HomeView: View {
                                 selectedCategory = category
                             }
                         }
+                        
+                        Divider()
+                            .padding(.vertical, 8)
+                        
+                        CategoryButton(
+                            title: "Practice Sets",
+                            icon: "brain.fill",
+                            isSelected: false
+                        ) {
+                            showingPracticeSets = true
+                        }
                     }
                     .padding(.horizontal)
                 }
@@ -122,6 +134,9 @@ struct HomeView: View {
             }
         }
         .navigationViewStyle(.columns)
+        .sheet(isPresented: $showingPracticeSets) {
+            QuestionSetsListView()
+        }
     }
 }
 
