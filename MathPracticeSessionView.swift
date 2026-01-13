@@ -14,15 +14,21 @@ struct MathPracticeSessionView: View {
     @State private var currentQuestionIndex = 0
     @State private var userAnswers: [String: UserAnswer] = [:]
     @State private var showResults = false
+    @State private var currentPracticeQuestions: [MathQuestion]
+    
+    init(questionSet: MathQuestionSet) {
+        self.questionSet = questionSet
+        self._currentPracticeQuestions = State(initialValue: questionSet.questions)
+    }
     
     private var currentQuestion: MathQuestion? {
-        guard currentQuestionIndex < questionSet.questions.count else { return nil }
-        return questionSet.questions[currentQuestionIndex]
+        guard currentQuestionIndex < currentPracticeQuestions.count else { return nil }
+        return currentPracticeQuestions[currentQuestionIndex]
     }
     
     private var progress: Double {
-        guard !questionSet.questions.isEmpty else { return 0 }
-        return Double(currentQuestionIndex + 1) / Double(questionSet.questions.count)
+        guard !currentPracticeQuestions.isEmpty else { return 0 }
+        return Double(currentQuestionIndex + 1) / Double(currentPracticeQuestions.count)
     }
     
     var body: some View {
@@ -52,7 +58,7 @@ struct MathPracticeSessionView: View {
             // Progress bar
             VStack(spacing: 8) {
                 HStack {
-                    Text("Question \(currentQuestionIndex + 1) of \(questionSet.questions.count)")
+                    Text("Question \(currentQuestionIndex + 1) of \(currentPracticeQuestions.count)")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                     
@@ -73,89 +79,43 @@ struct MathPracticeSessionView: View {
             .padding()
             .background(Color(.systemBackground))
             
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    // Question Label and Topic
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack {
-                            Text(question.label)
-                                .font(.title2)
-                                .fontWeight(.bold)
-                            
-                            Spacer()
-                            
-                            Text(question.topic)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                                .padding(.horizontal, 10)
-                                .padding(.vertical, 4)
-                                .background(Color(.systemGray5))
-                                .cornerRadius(6)
-                        }
+            // Canvas-style working area with question overlay
+            ZStack(alignment: .top) {
+                // Background canvas for writing
+                TextEditor(text: workingBinding(for: question.id))
+                    .padding(.top, 120) // Space for question overlay
+                    .font(.system(.body, design: .monospaced))
+                    .scrollContentBackground(.hidden)
+                    .background(Color(.systemGroupedBackground))
+                
+                // Question overlay at the top
+                VStack(alignment: .leading, spacing: 12) {
+                    HStack {
+                        Text(question.label)
+                            .font(.headline)
+                            .fontWeight(.bold)
                         
-                        if let examTip = question.examTip {
-                            HStack(alignment: .top, spacing: 8) {
-                                Image(systemName: "lightbulb.fill")
-                                    .foregroundStyle(.yellow)
-                                    .font(.caption)
-                                
-                                LaTeXView(latex: examTip, fontSize: 14)
-                                    .frame(height: 60)
-                            }
-                            .padding(12)
-                            .background(Color.yellow.opacity(0.1))
-                            .cornerRadius(8)
-                        }
-                    }
-                    .padding()
-                    .background(Color(.systemBackground))
-                    .cornerRadius(12)
-                    .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
-                    
-                    // Question Display
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("Question")
+                        Text(question.topic)
                             .font(.caption)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.blue)
-                            .textCase(.uppercase)
+                            .foregroundStyle(.secondary)
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 4)
+                            .background(Color(.systemGray5))
+                            .cornerRadius(6)
                         
-                        LaTeXView(latex: question.questionLatex, fontSize: 20)
-                            .frame(minHeight: 80)
+                        Spacer()
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding()
-                    .background(Color(.systemBackground))
-                    .cornerRadius(12)
-                    .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
                     
-                    // Working Space
-                    VStack(alignment: .leading, spacing: 12) {
-                        HStack {
-                            Image(systemName: "pencil")
-                                .foregroundStyle(.orange)
-                            Text("Your Working")
-                                .font(.caption)
-                                .fontWeight(.semibold)
-                                .foregroundStyle(.orange)
-                                .textCase(.uppercase)
-                        }
-                        
-                        TextEditor(text: workingBinding(for: question.id))
-                            .frame(minHeight: 200)
-                            .padding(8)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                            .font(.system(.body, design: .monospaced))
-                    }
-                    .padding()
-                    .background(Color(.systemBackground))
-                    .cornerRadius(12)
-                    .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
+                    LaTeXView(latex: question.questionLatex, fontSize: 18)
+                        .frame(minHeight: 60)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding()
+                .background(Color(.systemBackground))
+                .cornerRadius(12)
+                .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 4)
+                .padding()
             }
-            .background(Color(.systemGroupedBackground))
             
             // Navigation Buttons
             HStack(spacing: 12) {
@@ -173,7 +133,7 @@ struct MathPracticeSessionView: View {
                     }
                 }
                 
-                if currentQuestionIndex < questionSet.questions.count - 1 {
+                if currentQuestionIndex < currentPracticeQuestions.count - 1 {
                     Button(action: nextQuestion) {
                         HStack {
                             Text("Next")
@@ -207,11 +167,22 @@ struct MathPracticeSessionView: View {
     private var resultsView: some View {
         MathResultsView(
             questionSet: questionSet,
+            currentPracticeQuestions: currentPracticeQuestions,
             userAnswers: $userAnswers,
             onDismiss: { dismiss() },
-            onRetry: {
+            onRetryWrongQuestions: { wrongQuestions in
+                // Reset for next round with only wrong questions
+                currentPracticeQuestions = wrongQuestions
                 currentQuestionIndex = 0
                 showResults = false
+                
+                // Clear working notes for wrong questions so they can start fresh
+                for question in wrongQuestions {
+                    if var answer = userAnswers[question.id] {
+                        answer.workingNotes = ""
+                        userAnswers[question.id] = answer
+                    }
+                }
             }
         )
     }
@@ -236,7 +207,7 @@ struct MathPracticeSessionView: View {
     
     private func nextQuestion() {
         withAnimation {
-            currentQuestionIndex = min(questionSet.questions.count - 1, currentQuestionIndex + 1)
+            currentQuestionIndex = min(currentPracticeQuestions.count - 1, currentQuestionIndex + 1)
         }
     }
     
