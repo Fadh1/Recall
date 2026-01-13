@@ -6,6 +6,18 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		ED042D7A2F15E5C30050B123 /* UnderConstructionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED042D792F15E5C30050B123 /* UnderConstructionView.swift */; };
+		ED042D7C2F15F46E0050B123 /* MathQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED042D7B2F15F46E0050B123 /* MathQuestion.swift */; };
+		ED042D7E2F15F4790050B123 /* LaTeXView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED042D7D2F15F4790050B123 /* LaTeXView.swift */; };
+		ED042D802F15F4970050B123 /* MathPracticeSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED042D7F2F15F4970050B123 /* MathPracticeSessionView.swift */; };
+		ED042D822F15F4AA0050B123 /* MathResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED042D812F15F4AA0050B123 /* MathResultsView.swift */; };
+		ED042D842F15F4BF0050B123 /* MathAnswerDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED042D832F15F4BF0050B123 /* MathAnswerDetailView.swift */; };
+		ED042D862F15F4E90050B123 /* MathQuestionSetsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED042D852F15F4E90050B123 /* MathQuestionSetsListView.swift */; };
+		ED042D882F15F50D0050B123 /* IMPLEMENTATION_NOTES.md in Resources */ = {isa = PBXBuildFile; fileRef = ED042D872F15F50D0050B123 /* IMPLEMENTATION_NOTES.md */; };
+		ED042D8A2F15F52A0050B123 /* QUICK_START_GUIDE.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED042D892F15F52A0050B123 /* QUICK_START_GUIDE.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		EDDE34C72EC581140076ACE5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +36,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		ED042D792F15E5C30050B123 /* UnderConstructionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderConstructionView.swift; sourceTree = "<group>"; };
+		ED042D7B2F15F46E0050B123 /* MathQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathQuestion.swift; sourceTree = "<group>"; };
+		ED042D7D2F15F4790050B123 /* LaTeXView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaTeXView.swift; sourceTree = "<group>"; };
+		ED042D7F2F15F4970050B123 /* MathPracticeSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathPracticeSessionView.swift; sourceTree = "<group>"; };
+		ED042D812F15F4AA0050B123 /* MathResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathResultsView.swift; sourceTree = "<group>"; };
+		ED042D832F15F4BF0050B123 /* MathAnswerDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathAnswerDetailView.swift; sourceTree = "<group>"; };
+		ED042D852F15F4E90050B123 /* MathQuestionSetsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathQuestionSetsListView.swift; sourceTree = "<group>"; };
+		ED042D872F15F50D0050B123 /* IMPLEMENTATION_NOTES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = IMPLEMENTATION_NOTES.md; sourceTree = "<group>"; };
+		ED042D892F15F52A0050B123 /* QUICK_START_GUIDE.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QUICK_START_GUIDE.swift; sourceTree = "<group>"; };
 		EDDE34B92EC581130076ACE5 /* Recall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Recall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDDE34C62EC581140076ACE5 /* RecallTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecallTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EDDE34D02EC581140076ACE5 /* RecallUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecallUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,6 +100,15 @@
 				EDDE34C92EC581140076ACE5 /* RecallTests */,
 				EDDE34D32EC581140076ACE5 /* RecallUITests */,
 				EDDE34BA2EC581130076ACE5 /* Products */,
+				ED042D792F15E5C30050B123 /* UnderConstructionView.swift */,
+				ED042D7B2F15F46E0050B123 /* MathQuestion.swift */,
+				ED042D7D2F15F4790050B123 /* LaTeXView.swift */,
+				ED042D7F2F15F4970050B123 /* MathPracticeSessionView.swift */,
+				ED042D812F15F4AA0050B123 /* MathResultsView.swift */,
+				ED042D832F15F4BF0050B123 /* MathAnswerDetailView.swift */,
+				ED042D852F15F4E90050B123 /* MathQuestionSetsListView.swift */,
+				ED042D872F15F50D0050B123 /* IMPLEMENTATION_NOTES.md */,
+				ED042D892F15F52A0050B123 /* QUICK_START_GUIDE.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -212,6 +242,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED042D882F15F50D0050B123 /* IMPLEMENTATION_NOTES.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +267,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED042D822F15F4AA0050B123 /* MathResultsView.swift in Sources */,
+				ED042D842F15F4BF0050B123 /* MathAnswerDetailView.swift in Sources */,
+				ED042D7C2F15F46E0050B123 /* MathQuestion.swift in Sources */,
+				ED042D8A2F15F52A0050B123 /* QUICK_START_GUIDE.swift in Sources */,
+				ED042D802F15F4970050B123 /* MathPracticeSessionView.swift in Sources */,
+				ED042D7A2F15E5C30050B123 /* UnderConstructionView.swift in Sources */,
+				ED042D7E2F15F4790050B123 /* LaTeXView.swift in Sources */,
+				ED042D862F15F4E90050B123 /* MathQuestionSetsListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
