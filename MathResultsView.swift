@@ -74,10 +74,47 @@ struct MathResultsView: View {
             .padding()
             .background(Color(.systemBackground))
             
-            // Question and Model Solution
-            ScrollView {
-                VStack(spacing: 16) {
-                    // Question Card
+            // Model Solution and Student Work
+            VStack(spacing: 0) {
+                // Model Solution Card (at the top)
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 12) {
+                        HStack {
+                            Label("Model Solution", systemImage: "doc.text.fill")
+                                .font(.caption)
+                                .foregroundStyle(.purple)
+                                .textCase(.uppercase)
+                            
+                            Spacer()
+                        }
+                        
+                        LaTeXView(latex: question.workingsLatex, fontSize: 16)
+                            .frame(minHeight: 80)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .padding()
+                    .background(Color.purple.opacity(0.1))
+                    .cornerRadius(12)
+                    .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 4)
+                    .padding()
+                }
+                .frame(maxHeight: 200)
+                .background(Color(.systemGroupedBackground))
+                
+                // Canvas-style working area with question overlay (student's work)
+                ZStack(alignment: .top) {
+                    // Background showing student's working notes
+                    ScrollView {
+                        Text(userAnswers[question.id]?.workingNotes ?? "No work shown")
+                            .font(.system(.body, design: .monospaced))
+                            .foregroundStyle(userAnswers[question.id]?.workingNotes.isEmpty ?? true ? .secondary : .primary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding()
+                            .padding(.top, 120) // Space for question overlay
+                    }
+                    .background(Color(.systemGroupedBackground))
+                    
+                    // Question overlay at the top
                     VStack(alignment: .leading, spacing: 12) {
                         HStack {
                             Text(question.label)
@@ -103,32 +140,9 @@ struct MathResultsView: View {
                     .background(Color(.systemBackground))
                     .cornerRadius(12)
                     .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 4)
-                    
-                    // Model Solution Card
-                    VStack(alignment: .leading, spacing: 12) {
-                        HStack {
-                            Label("Model Solution", systemImage: "doc.text.fill")
-                                .font(.caption)
-                                .foregroundStyle(.purple)
-                                .textCase(.uppercase)
-                            
-                            Spacer()
-                        }
-                        
-                        LaTeXView(latex: question.workingsLatex, fontSize: 16)
-                            .frame(minHeight: 80)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    }
                     .padding()
-                    .background(Color.purple.opacity(0.1))
-                    .cornerRadius(12)
-                    .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 4)
-                    
-                    Spacer()
                 }
-                .padding()
             }
-            .background(Color(.systemGroupedBackground))
             
             // Correct/Wrong Buttons
             VStack(spacing: 12) {
